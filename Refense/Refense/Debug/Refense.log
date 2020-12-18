@@ -1,0 +1,23 @@
+﻿  Renderer.cpp
+  main.cpp
+  Code wird generiert...
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: __thiscall sf::String::String(char const *,class std::locale const &)" (__imp_??0String@sf@@QAE@PBDABVlocale@std@@@Z)" in Funktion ""private: __thiscall Renderer::Renderer(void)" (??0Renderer@@AAE@XZ)".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: __thiscall sf::String::~String(void)" (__imp_??1String@sf@@QAE@XZ)" in Funktion ""private: __thiscall Renderer::Renderer(void)" (??0Renderer@@AAE@XZ)".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: void __thiscall sf::Window::close(void)" (__imp_?close@Window@sf@@QAEXXZ)" in Funktion "_main".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: bool __thiscall sf::Window::isOpen(void)const " (__imp_?isOpen@Window@sf@@QBE_NXZ)" in Funktion "_main".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: bool __thiscall sf::Window::pollEvent(class sf::Event &)" (__imp_?pollEvent@Window@sf@@QAE_NAAVEvent@2@@Z)" in Funktion "_main".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: void __thiscall sf::Window::setSize(class sf::Vector2<unsigned int> const &)" (__imp_?setSize@Window@sf@@QAEXABV?$Vector2@I@2@@Z)" in Funktion ""private: __thiscall Renderer::Renderer(void)" (??0Renderer@@AAE@XZ)".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: void __thiscall sf::Window::setTitle(class sf::String const &)" (__imp_?setTitle@Window@sf@@QAEXABVString@2@@Z)" in Funktion ""private: __thiscall Renderer::Renderer(void)" (??0Renderer@@AAE@XZ)".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: void __thiscall sf::Window::display(void)" (__imp_?display@Window@sf@@QAEXXZ)" in Funktion "_main".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: __thiscall sf::Color::Color(unsigned char,unsigned char,unsigned char,unsigned char)" (__imp_??0Color@sf@@QAE@EEEE@Z)" in Funktion "_main".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: void __thiscall sf::RenderTarget::clear(class sf::Color const &)" (__imp_?clear@RenderTarget@sf@@QAEXABVColor@2@@Z)" in Funktion "_main".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: __thiscall sf::RenderWindow::RenderWindow(void)" (__imp_??0RenderWindow@sf@@QAE@XZ)" in Funktion ""private: __thiscall Renderer::Renderer(void)" (??0Renderer@@AAE@XZ)".
+main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol ""__declspec(dllimport) public: virtual __thiscall sf::RenderWindow::~RenderWindow(void)" (__imp_??1RenderWindow@sf@@UAE@XZ)" in Funktion "__unwindfunclet$??0Renderer@@AAE@XZ$0".
+main.obj : error LNK2001: Nicht aufgelöstes externes Symbol ""private: static class Renderer * Renderer::instance" (?instance@Renderer@@0PAV1@A)".
+E:\Zeugs\Coding\Refense\/External Libraries/SFML/lib\sfml-main-d.lib : warning LNK4272: Bibliothekcomputertyp "x64" steht in Konflikt mit dem Zielcomputertyp "X86"
+E:\Zeugs\Coding\Refense\/External Libraries/SFML/lib\sfml-graphics-d.lib : warning LNK4272: Bibliothekcomputertyp "x64" steht in Konflikt mit dem Zielcomputertyp "X86"
+E:\Zeugs\Coding\Refense\/External Libraries/SFML/lib\sfml-window-d.lib : warning LNK4272: Bibliothekcomputertyp "x64" steht in Konflikt mit dem Zielcomputertyp "X86"
+E:\Zeugs\Coding\Refense\/External Libraries/SFML/lib\sfml-system-d.lib : warning LNK4272: Bibliothekcomputertyp "x64" steht in Konflikt mit dem Zielcomputertyp "X86"
+E:\Zeugs\Coding\Refense\/External Libraries/SFML/lib\sfml-audio-d.lib : warning LNK4272: Bibliothekcomputertyp "x64" steht in Konflikt mit dem Zielcomputertyp "X86"
+E:\Zeugs\Coding\Refense\/External Libraries/SFML/lib\sfml-network-d.lib : warning LNK4272: Bibliothekcomputertyp "x64" steht in Konflikt mit dem Zielcomputertyp "X86"
+E:\Zeugs\Coding\Refense\Debug\Refense.exe : fatal error LNK1120: 13 nicht aufgelöste Externe
