@@ -35,7 +35,7 @@ public:
 
 private:
 
-	float m_duration = 2.0f;
+	float m_duration = 0.1f;
 
 	sf::Font m_poweredByFont;
 	sf::Text m_poweredByText;

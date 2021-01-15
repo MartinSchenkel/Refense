@@ -131,15 +131,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Credits.cpp" />
+    <ClCompile Include="KeyBindInput.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="TextScroll.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Credits.h" />
     <ClInclude Include="KeyBindings.h" />
+    <ClInclude Include="KeyBindInput.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="Slider.h" />
+    <ClInclude Include="TextScroll.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="WorldStats.h" />

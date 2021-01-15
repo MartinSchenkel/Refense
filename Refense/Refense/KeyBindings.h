@@ -13,13 +13,14 @@ public:
 	}
 
 	sf::Keyboard::Key m_up = sf::Keyboard::W;
-	sf::Keyboard::Key m_down = sf::Keyboard::S;
 	sf::Keyboard::Key m_left = sf::Keyboard::A;
 	sf::Keyboard::Key m_right = sf::Keyboard::D;
 
-	sf::Keyboard::Key m_reflect1;
-	sf::Keyboard::Key m_reflect2;
-	sf::Keyboard::Key m_reflect3;
-};
+	sf::Keyboard::Key m_reflect1 = sf::Keyboard::E;
+	sf::Keyboard::Key m_reflect2 = sf::Keyboard::Q;
+	sf::Keyboard::Key m_reflect3 = sf::Keyboard::LShift;
 
+	sf::Keyboard::Key m_pause = sf::Keyboard::Escape;
+
+};
 KeyBindings *KeyBindings::m_instance = 0;

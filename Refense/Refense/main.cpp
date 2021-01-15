@@ -7,41 +7,52 @@
 #include "TitleScreen.h"
 #include "Menu.h"
 
-const std::string FRAG_SHADER = 
-"#version 130\n\
-\
-uniform sampler2D texture; \
-uniform float blur_radius = 0.001f; \
-\
-void main() \
-{ \
-	vec2 offx = vec2(blur_radius, 0.0);\
-	vec2 offy = vec2(0.0, blur_radius);\
-\
-	vec4 pixel = texture2D(texture, gl_TexCoord[0].xy)      * 30.0 + \
-		texture2D(texture, gl_TexCoord[0].xy - offx)        * 5.0 + \
-		texture2D(texture, gl_TexCoord[0].xy + offx)        * 5.0 + \
-		texture2D(texture, gl_TexCoord[0].xy - offy)        * 5.0 + \
-		texture2D(texture, gl_TexCoord[0].xy + offy)        * 5.0 + \
-		texture2D(texture, gl_TexCoord[0].xy - offx - offy) * 1.0 + \
-		texture2D(texture, gl_TexCoord[0].xy - offx + offy) * 1.0 + \
-		texture2D(texture, gl_TexCoord[0].xy + offx - offy) * 1.0 + \
-		texture2D(texture, gl_TexCoord[0].xy + offx + offy) * 1.0; \
- \
-	gl_FragColor = gl_Color * (pixel / 2.0); \
-} \
-";
 
-enum EGameStates {
-	ETitleScreen,
-	EMainMenu,
-	ELoading,
-	EInGame,
-	EPaused
-};
+sf::Keyboard::Key m_up = sf::Keyboard::W;
+sf::Keyboard::Key m_left = sf::Keyboard::A;
+sf::Keyboard::Key m_right = sf::Keyboard::D;
+
+sf::Keyboard::Key m_reflect1 = sf::Keyboard::E;
+sf::Keyboard::Key m_reflect2 = sf::Keyboard::Q;
+sf::Keyboard::Key m_reflect3 = sf::Keyboard::LShift;
+
+sf::Keyboard::Key m_pause = sf::Keyboard::Escape;
 
 int main()
 {
+	enum EGameStates {
+		ETitleScreen,
+		EMainMenu,
+		ELoading,
+		EInGame,
+		EPaused
+	};
+
+	const std::string FRAG_SHADER =
+		"#version 130\n\
+		\
+		uniform sampler2D texture; \
+		uniform float blur_radius = 0.001f; \
+		\
+		void main() \
+		{ \
+			vec2 offx = vec2(blur_radius, 0.0);\
+			vec2 offy = vec2(0.0, blur_radius);\
+		\
+			vec4 pixel = texture2D(texture, gl_TexCoord[0].xy)      * 30.0 + \
+				texture2D(texture, gl_TexCoord[0].xy - offx)        * 5.0 + \
+				texture2D(texture, gl_TexCoord[0].xy + offx)        * 5.0 + \
+				texture2D(texture, gl_TexCoord[0].xy - offy)        * 5.0 + \
+				texture2D(texture, gl_TexCoord[0].xy + offy)        * 5.0 + \
+				texture2D(texture, gl_TexCoord[0].xy - offx - offy) * 1.0 + \
+				texture2D(texture, gl_TexCoord[0].xy - offx + offy) * 1.0 + \
+				texture2D(texture, gl_TexCoord[0].xy + offx - offy) * 1.0 + \
+				texture2D(texture, gl_TexCoord[0].xy + offx + offy) * 1.0; \
+		 \
+			gl_FragColor = gl_Color * (pixel / 2.0); \
+		} \
+		";
+
 	EGameStates currentState = ETitleScreen;
 
 	TitleScreen* ts = new TitleScreen();
@@ -80,16 +91,24 @@ int main()
 		//handle events
 		sf::Event event;
 
+		sf::Keyboard::Key pressedKey = sf::Keyboard::Unknown;
+
 		while (window.pollEvent(event))
 		{
 			// "close requested" event: we close the window
 			if (event.type == sf::Event::Closed)
 				window.close();
+
+			if (event.type == sf::Event::EventType::KeyPressed)
+			{
+				pressedKey = event.key.code;
+			}
 		}
 
 		rt->clear();
 
 		sf::Vector2i moveDir;
+		int transitionTo = 0;
 
 		switch (currentState)
 		{
@@ -108,8 +127,20 @@ int main()
 			break;
 
 		case(EMainMenu):
-			mainMenu.update(deltaTime, (sf::Vector2f) sf::Mouse::getPosition(window));
+			mainMenu.update(deltaTime, (sf::Vector2f) sf::Mouse::getPosition(window), pressedKey);
 			mainMenu.drawTo(rt);
+			transitionTo = mainMenu.shouldTransition();
+
+			if (transitionTo == 2) window.close();
+			else if (transitionTo == 1)
+			{
+				currentState = ELoading;
+			}
+
+			break;
+
+		case(ELoading):
+			currentState = EInGame;
 			break;
 
 		case(EInGame):

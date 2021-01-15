@@ -18,6 +18,15 @@
     <Filter Include="Headers\Menu\TitleScreen">
       <UniqueIdentifier>{a8159375-45b6-4194-9ec3-d247c0a979fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Menu">
+      <UniqueIdentifier>{49c46fa2-5ae4-4b92-88b3-ae5a74f2bd5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\UIElements">
+      <UniqueIdentifier>{ceb62ad5-76d0-4cde-94f9-974bac22c989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UIElements">
+      <UniqueIdentifier>{d339d870-f4af-408b-83d6-dab9e2d28004}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,13 +35,34 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Credits.cpp">
+      <Filter>Source\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Source\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source\UIElements</Filter>
+    </ClCompile>
+    <ClCompile Include="TextScroll.cpp">
+      <Filter>Source\UIElements</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Source\UIElements</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyBindInput.cpp">
+      <Filter>Source\UIElements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Headers\Menu</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Headers\Menu</Filter>
@@ -51,6 +81,24 @@
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Headers\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Credits.h">
+      <Filter>Headers\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Headers\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Headers\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="TextScroll.h">
+      <Filter>Headers\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Headers\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyBindInput.h">
+      <Filter>Headers\UIElements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

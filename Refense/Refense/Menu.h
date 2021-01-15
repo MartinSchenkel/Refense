@@ -1,65 +1,28 @@
 #pragma once
 
 #include "MainMenu.h"
-
-enum EMenuState
-{
-	EMain,
-	ESettings,
-	ECredits,
-};
+#include "Credits.h"
+#include "Settings.h"
 
 class Menu
 {
+	enum EMenuState
+	{
+		EMain,
+		ESettings,
+		ECredits,
+	};
+
 public:
-	Menu()
-	{
-
-	}
-	void update(float a_deltaTime, sf::Vector2f a_mousePos)
-	{
-		switch (m_currentState)
-		{
-		case(EMain):
-			m_mainMenu.update(a_mousePos);
-			break;
-
-		case(ESettings):
-			break;
-
-		case(ECredits):
-			break;
-
-		default:
-			break;
-		}
-	}
-	void drawTo(sf::RenderTexture* a_texture)
-	{
-		switch (m_currentState)
-		{
-		case(EMain):
-			m_mainMenu.drawTo(a_texture);
-			break;
-
-		case(ESettings):
-			break;
-
-		case(ECredits):
-			break;
-
-		default:
-			break;
-		}
-	}
-	bool shouldTransition()
-	{
-		return false;
-	}
+	Menu();
+	void update(float a_deltaTime, sf::Vector2f a_mousePos, sf::Keyboard::Key a_keyDown);
+	void drawTo(sf::RenderTexture* a_texture);
+	int shouldTransition(); //0 = dont transition, 1 = transition, 2 = Close Application
 
 private:
 	MainMenu m_mainMenu;
-
+	Settings m_settings;
+	Credits m_credits;
 
 	EMenuState m_currentState = EMain;
 
