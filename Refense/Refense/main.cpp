@@ -4,12 +4,14 @@
 #include "Player.h"
 #include "KeyBindings.h"
 #include "Timer.h"
+#include "TitleScreen.h"
+#include "Menu.h"
 
 const std::string FRAG_SHADER = 
 "#version 130\n\
 \
 uniform sampler2D texture; \
-uniform float blur_radius; \
+uniform float blur_radius = 0.001f; \
 \
 void main() \
 { \
@@ -26,12 +28,25 @@ void main() \
 		texture2D(texture, gl_TexCoord[0].xy + offx - offy) * 1.0 + \
 		texture2D(texture, gl_TexCoord[0].xy + offx + offy) * 1.0; \
  \
-	gl_FragColor = gl_Color * (pixel / 30.0); \
+	gl_FragColor = gl_Color * (pixel / 2.0); \
 } \
 ";
 
+enum EGameStates {
+	ETitleScreen,
+	EMainMenu,
+	ELoading,
+	EInGame,
+	EPaused
+};
+
 int main()
 {
+	EGameStates currentState = ETitleScreen;
+
+	TitleScreen* ts = new TitleScreen();
+	Menu mainMenu;
+
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Refense");
 	window.setFramerateLimit(144);
 
@@ -45,15 +60,15 @@ int main()
 
 	float deltaTime = 0.0f;
 
-
 	sf::RenderTexture* rt = new sf::RenderTexture();
-	rt->create(1280, 720);
+	rt->create(1920, 1080);
 
 	sf::Shader blurShader;
 	blurShader.loadFromMemory(FRAG_SHADER, sf::Shader::Fragment);
 	//set up the 'texture' variable in the shader
 	blurShader.setUniform("texture", sf::Shader::CurrentTexture);
-	blurShader.setUniform("blur_radius", 0.003f);
+
+	bool saveImage = false;
 
 	while (window.isOpen())
 	{
@@ -72,40 +87,70 @@ int main()
 				window.close();
 		}
 
-
-		sf::Vector2i moveDir;
-		//Up
-		if (sf::Keyboard::isKeyPressed(k->m_up))
-		{
-			moveDir.y = -1;
-		}
-		//Right
-		if (sf::Keyboard::isKeyPressed(k->m_right))
-		{
-			moveDir.x = 1;
-		}
-		//Left
-		if (sf::Keyboard::isKeyPressed(k->m_left))
-		{
-			moveDir.x = -1;
-		}
-
-		p.move(moveDir, deltaTime);
-
-		//update GameLogic
-
 		rt->clear();
 
-		//draw
-		p.drawTo(rt);
-		
+		sf::Vector2i moveDir;
+
+		switch (currentState)
+		{
+		case(ETitleScreen):
+
+			ts->update(deltaTime);
+			
+			ts->drawTo(rt);
+
+			if (ts->shouldTransition())
+			{
+				currentState = EMainMenu;
+				delete(ts);
+			}
+
+			break;
+
+		case(EMainMenu):
+			mainMenu.update(deltaTime, (sf::Vector2f) sf::Mouse::getPosition(window));
+			mainMenu.drawTo(rt);
+			break;
+
+		case(EInGame):
+			//Up
+			if (sf::Keyboard::isKeyPressed(k->m_up))
+			{
+				moveDir.y = -1;
+			}
+			//Right
+			if (sf::Keyboard::isKeyPressed(k->m_right))
+			{
+				moveDir.x = 1;
+			}
+			//Left
+			if (sf::Keyboard::isKeyPressed(k->m_left))
+			{
+				moveDir.x = -1;
+			}
+
+			p.move(moveDir, deltaTime);
+
+			//draw
+			p.drawTo(rt);
+
+			break;
+
+		case(EPaused):
+			break;
+
+		default:
+			break;
+		}
+
 		rt->display();
 
 		window.clear();
 
 		sf::Sprite s(rt->getTexture());
 
-		window.draw(s, &blurShader);
+		if(currentState == EInGame) window.draw(s, &blurShader);
+		else window.draw(s);
 
 		window.display();
 	}
