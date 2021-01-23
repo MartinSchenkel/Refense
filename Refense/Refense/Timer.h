@@ -2,17 +2,13 @@
 
 #include <chrono>
 
-class Timer {
-	static Timer *m_instance;
-
-
-	std::chrono::steady_clock::time_point begin;
+class Timer 
+{
 
 public:
-	static Timer *getInstance() {
-		if (!m_instance)
-			m_instance = new Timer;
-		return m_instance;
+	static Timer& get() {
+		static Timer s_Instance;
+		return s_Instance;
 	}
 
 	void Reset()
@@ -28,6 +24,9 @@ public:
 
 		return timePassed;
 	}
-};
 
-Timer *Timer::m_instance = 0;
+private:
+	Timer() {}
+
+	std::chrono::steady_clock::time_point begin;
+};

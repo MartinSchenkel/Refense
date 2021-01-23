@@ -4,10 +4,26 @@
 
 #include <vector>
 
-class WorldStats {
-	static WorldStats *m_instance;
-	
-	const sf::Vector2f GRAVITY = { 0, 10.0f };
+class WorldStats 
+{
+public:
+	WorldStats(const WorldStats&) = delete;
+
+	static WorldStats& get() {
+		static WorldStats s_Instance;
+		return s_Instance;
+	}
+
+	void drawTo(sf::RenderTexture* a_texture) {
+		for (auto i : m_staticWorldObjects)
+			a_texture->draw(i);
+	}
+
+	std::vector<sf::RectangleShape> m_staticWorldObjects;
+
+	sf::Vector2f getGravity() { return GRAVITY; };
+
+private:
 
 	WorldStats() {
 		sf::RectangleShape floor;
@@ -15,12 +31,12 @@ class WorldStats {
 		floor.setFillColor(sf::Color::Transparent);
 		floor.setOutlineThickness(4);
 		floor.setOutlineColor(sf::Color::White);
-		floor.setSize( { 1272.0f, 100.0f } );
+		floor.setSize({ 1272.0f, 100.0f });
 
 		m_staticWorldObjects.push_back(floor);
 
 		sf::RectangleShape platform1;
-		platform1.setPosition(200, 400);
+		platform1.setPosition(100, 400);
 		platform1.setFillColor(sf::Color::Transparent);
 		platform1.setOutlineThickness(4);
 		platform1.setOutlineColor(sf::Color::White);
@@ -45,32 +61,16 @@ class WorldStats {
 		platform3.setSize({ 200, 50 });
 
 		m_staticWorldObjects.push_back(platform3);
+
+		sf::RectangleShape platform4;
+		platform4.setPosition(500, 450);
+		platform4.setFillColor(sf::Color::Transparent);
+		platform4.setOutlineThickness(4);
+		platform4.setOutlineColor(sf::Color::White);
+		platform4.setSize({ 200, 50 });
+
+		m_staticWorldObjects.push_back(platform4);
 	};
 
-
-public:
-
-	static WorldStats *getInstance() {
-		if (!m_instance)
-			m_instance = new WorldStats;
-		return m_instance;
-	}
-
-	void drawTo(sf::RenderWindow &a_window)
-	{
-		for(auto i : m_staticWorldObjects)
-			a_window.draw(i);
-	}
-
-
-	void drawTo(sf::RenderTexture* a_texture) {
-		for (auto i : m_staticWorldObjects)
-			a_texture->draw(i);
-	}
-
-	std::vector<sf::RectangleShape> m_staticWorldObjects;
-
-	sf::Vector2f getGravity() { return GRAVITY; };
+	const sf::Vector2f GRAVITY = { 0, 10.0f };
 };
-
-WorldStats *WorldStats::m_instance = 0;

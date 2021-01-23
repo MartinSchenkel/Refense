@@ -26,7 +26,12 @@ void Slider::setValue(float a_value)
 	m_valueText.setString(std::to_string((int) (m_value * 10)));
 }
 
-float Slider::update(sf::Vector2f a_mousePos)
+float Slider::getValue()
+{
+	return m_value;
+}
+
+void Slider::update(sf::Vector2f a_mousePos)
 {
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
@@ -51,7 +56,6 @@ float Slider::update(sf::Vector2f a_mousePos)
 		m_value = (xMousePos - m_sliderBar.getPosition().x) / m_sliderBar.getSize().x;
 		m_valueText.setString(std::to_string((int)(m_value * 10)));
 	}
-	return m_value;
 }
 void Slider::drawTo(sf::RenderTexture* a_texture)
 {

@@ -8,14 +8,18 @@ public:
 	Player();
 	~Player();
 
-	void drawTo(sf::RenderWindow &a_window);
 	void drawTo(sf::RenderTexture* a_texture);
-
 	void move(sf::Vector2i a_dir, float a_deltaTime);
-
 	void updatePhysics(float a_deltaTime);
 
+	sf::Vector2f getPosition() { return m_playerSprite.getPosition(); }
+	sf::FloatRect getGlobalBounds() { return m_playerSprite.getGlobalBounds(); }
+
 	float m_gravityMulitplier = 1.0f;
+
+	int m_health = 3;
+
+	const float REFLECT_RANGE = 200;
 
 private:
 

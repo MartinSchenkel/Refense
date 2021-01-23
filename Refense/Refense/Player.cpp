@@ -14,22 +14,9 @@ Player::~Player()
 {
 }
 
-void Player::drawTo(sf::RenderWindow &a_window)
-{
-	a_window.draw(m_playerSprite);
-
-	WorldStats *w = w->getInstance();
-
-	w->drawTo(a_window);
-}
-
 void Player::drawTo(sf::RenderTexture* a_texture)
 {
 	a_texture->draw(m_playerSprite);
-
-	WorldStats *w = w->getInstance();
-
-	w->drawTo(a_texture);
 }
 
 void Player::move(sf::Vector2i a_dir, float a_deltaTime)
@@ -54,12 +41,12 @@ void Player::move(sf::Vector2i a_dir, float a_deltaTime)
 
 void Player::updatePhysics(float a_deltaTime)
 {
-	WorldStats *w = w->getInstance();
+	WorldStats& w = WorldStats::get();
 
 	//Koyote Time
 	if (std::abs(m_velocity.y) > 2.0f) m_isJumping = true;
 
-	m_velocity += w->getGravity() * m_gravityMulitplier * a_deltaTime;
+	m_velocity += w.getGravity() * m_gravityMulitplier * 0.01f; //TODO: Fix magic number. DeltaTime caused the jump to be lower if you have less fps. 0.01 is a placeholder value
 
 	if (m_playerSprite.getPosition().x < 0)
 	{
@@ -74,7 +61,7 @@ void Player::updatePhysics(float a_deltaTime)
 
 	m_playerSprite.move(m_velocity);
 
-	for (auto i : w->m_staticWorldObjects)
+	for (auto i : w.m_staticWorldObjects)
 	{
 		float radius = m_playerSprite.getRadius();
 		float centerX = m_playerSprite.getPosition().x + radius;

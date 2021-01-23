@@ -16,9 +16,7 @@ private:
 
 	Button m_backButton;
 	Slider m_musicVolumeSlider;
-	float m_musicVolume;
 	Slider m_sfxVolumeSlider;
-	float m_sfxVolume;
 
 	sf::Font m_textFont;
 	sf::Text m_title;

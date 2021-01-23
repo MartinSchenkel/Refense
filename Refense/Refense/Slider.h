@@ -8,8 +8,9 @@ public:
 	Slider();
 	Slider(float a_initialValue);
 	void setValue(float a_value);
+	float getValue();
 
-	float update(sf::Vector2f a_mousePos); //return current value
+	void update(sf::Vector2f a_mousePos);
 	void drawTo(sf::RenderTexture* a_texture);
 
 	void setPosition(sf::Vector2f a_pos);

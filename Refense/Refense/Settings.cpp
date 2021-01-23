@@ -1,7 +1,11 @@
 #include "Settings.h"
 
+#include "GameSettings.h"
+
 Settings::Settings()
 {
+	GameSettings& k = GameSettings::get();
+
 	m_textFont.loadFromFile("../Resources/Fonts/unispace.ttf");
 	m_title.setFont(m_textFont);
 	m_title.setStyle(sf::Text::Bold);
@@ -19,13 +23,13 @@ Settings::Settings()
 	m_backButton.setOnClickVariable(&m_goBack);
 
 
-	m_musicVolumeSlider.setValue(0.2f);
+	m_musicVolumeSlider.setValue(k.m_musicVolume);
 	m_musicVolumeSlider.setTitleText("Music Volume");
 	m_musicVolumeSlider.setBarSize(sf::Vector2f(250, 10));
 	m_musicVolumeSlider.setHeadSize(sf::Vector2f(25, 50));
 	m_musicVolumeSlider.setPosition(sf::Vector2f(195, 260));
 
-	m_sfxVolumeSlider.setValue(0.0f);
+	m_sfxVolumeSlider.setValue(k.m_sfxVolume);
 	m_sfxVolumeSlider.setTitleText("SFX Volume");
 	m_sfxVolumeSlider.setBarSize(sf::Vector2f(250, 10));
 	m_sfxVolumeSlider.setHeadSize(sf::Vector2f(25, 50));
@@ -39,7 +43,7 @@ Settings::Settings()
 		sf::Color(255, 125, 0, 255));
 	m_leftBind.setDescriptionPosition(sf::Vector2f(300, 400));
 	m_leftBind.setBindPosition(sf::Vector2f(500, 400));
-	m_leftBind.setBind(sf::Keyboard::A);
+	m_leftBind.setBind(k.m_left);
 
 	temp = "Move Right:";
 	m_rightBind.setDescriptionText(&temp);
@@ -49,7 +53,7 @@ Settings::Settings()
 		sf::Color(255, 125, 0, 255));
 	m_rightBind.setDescriptionPosition(sf::Vector2f(300, 440));
 	m_rightBind.setBindPosition(sf::Vector2f(500, 440));
-	m_rightBind.setBind(sf::Keyboard::D);
+	m_rightBind.setBind(k.m_right);
 
 	temp = "Jump:";
 	m_jumpBind.setDescriptionText(&temp);
@@ -59,7 +63,7 @@ Settings::Settings()
 		sf::Color(255, 125, 0, 255));
 	m_jumpBind.setDescriptionPosition(sf::Vector2f(300, 480));
 	m_jumpBind.setBindPosition(sf::Vector2f(500, 480));
-	m_jumpBind.setBind(sf::Keyboard::Space);
+	m_jumpBind.setBind(k.m_up);
 
 	temp = "Reflect Projectile 1:";
 	m_reflect1Bind.setDescriptionText(&temp);
@@ -69,7 +73,7 @@ Settings::Settings()
 		sf::Color(255, 125, 0, 255));
 	m_reflect1Bind.setDescriptionPosition(sf::Vector2f(600, 400));
 	m_reflect1Bind.setBindPosition(sf::Vector2f(970, 400));
-	m_reflect1Bind.setBind(sf::Keyboard::E);
+	m_reflect1Bind.setBind(k.m_reflect1);
 
 	temp = "Reflect Projectile 2:";
 	m_reflect2Bind.setDescriptionText(&temp);
@@ -79,7 +83,7 @@ Settings::Settings()
 		sf::Color(255, 125, 0, 255));
 	m_reflect2Bind.setDescriptionPosition(sf::Vector2f(600, 440));
 	m_reflect2Bind.setBindPosition(sf::Vector2f(970, 440));
-	m_reflect2Bind.setBind(sf::Keyboard::Q);
+	m_reflect2Bind.setBind(k.m_reflect2);
 
 	temp = "Reflect Projectile 3:";
 	m_reflect3Bind.setDescriptionText(&temp);
@@ -89,7 +93,7 @@ Settings::Settings()
 		sf::Color(255, 125, 0, 255));
 	m_reflect3Bind.setDescriptionPosition(sf::Vector2f(600, 480));
 	m_reflect3Bind.setBindPosition(sf::Vector2f(970, 480));
-	m_reflect3Bind.setBind(sf::Keyboard::LShift);
+	m_reflect3Bind.setBind(k.m_reflect3);
 
 	temp = "Pause Game:";
 	m_pauseBind.setDescriptionText(&temp);
@@ -99,13 +103,13 @@ Settings::Settings()
 		sf::Color(255, 125, 0, 255));
 	m_pauseBind.setDescriptionPosition(sf::Vector2f(300, 560));
 	m_pauseBind.setBindPosition(sf::Vector2f(500, 560));
-	m_pauseBind.setBind(sf::Keyboard::Escape);
+	m_pauseBind.setBind(k.m_pause);
 }
 void Settings::update(sf::Vector2f a_mousePos, sf::Keyboard::Key a_keyDown)
 {
 	m_backButton.update(a_mousePos);
-	m_musicVolume = m_musicVolumeSlider.update(a_mousePos);
-	m_sfxVolume = m_sfxVolumeSlider.update(a_mousePos);
+	m_musicVolumeSlider.update(a_mousePos);
+	m_sfxVolumeSlider.update(a_mousePos);
 
 	m_leftBind.update(a_mousePos, a_keyDown);
 	m_rightBind.update(a_mousePos, a_keyDown);
@@ -134,7 +138,21 @@ int Settings::shouldTransition()
 {
 	if (m_goBack)
 	{
-		//Todo: Save settings
+		//Save settings
+		GameSettings& k = GameSettings::get();
+
+		k.m_up = m_jumpBind.getBind();
+		k.m_left = m_leftBind.getBind();
+		k.m_right = m_rightBind.getBind();
+
+		k.m_reflect1 = m_reflect1Bind.getBind();
+		k.m_reflect2 = m_reflect2Bind.getBind();
+		k.m_reflect3 = m_reflect3Bind.getBind();
+
+		k.m_pause = m_pauseBind.getBind();		
+
+		k.m_musicVolume = m_musicVolumeSlider.getValue();
+		k.m_sfxVolume = m_sfxVolumeSlider.getValue();
 
 		m_leftBind.reset();
 		m_rightBind.reset();

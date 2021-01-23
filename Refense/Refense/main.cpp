@@ -1,11 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#include "Player.h"
-#include "KeyBindings.h"
+#include "GameWorld.h"
 #include "Timer.h"
 #include "TitleScreen.h"
 #include "Menu.h"
+#include "GameSettings.h"
 
 
 sf::Keyboard::Key m_up = sf::Keyboard::W;
@@ -25,7 +25,8 @@ int main()
 		EMainMenu,
 		ELoading,
 		EInGame,
-		EPaused
+		EPaused,
+		EGameOver
 	};
 
 	const std::string FRAG_SHADER =
@@ -63,11 +64,13 @@ int main()
 
 	window.setKeyRepeatEnabled(true);
 
-	Player p;
+	std::srand((unsigned int) time(NULL));
 
-	KeyBindings *k = k->getInstance();
-	Timer *t = t->getInstance();
-	t->Reset();
+	GameWorld gameWorld;
+
+	GameSettings& k = GameSettings::get();
+	Timer& t = Timer::get();
+	t.Reset();
 
 	float deltaTime = 0.0f;
 
@@ -79,14 +82,12 @@ int main()
 	//set up the 'texture' variable in the shader
 	blurShader.setUniform("texture", sf::Shader::CurrentTexture);
 
-	bool saveImage = false;
-
 	while (window.isOpen())
 	{
 
-		deltaTime = t->getTimePassedInSec();
+		deltaTime = t.getTimePassedInSec();
 		//std::cout << std::floor(1/deltaTime) << std::endl;
-		t->Reset();
+		t.Reset();
 
 		//handle events
 		sf::Event event;
@@ -107,7 +108,6 @@ int main()
 
 		rt->clear();
 
-		sf::Vector2i moveDir;
 		int transitionTo = 0;
 
 		switch (currentState)
@@ -144,30 +144,33 @@ int main()
 			break;
 
 		case(EInGame):
-			//Up
-			if (sf::Keyboard::isKeyPressed(k->m_up))
+			transitionTo = gameWorld.update((sf::Vector2f) sf::Mouse::getPosition(window), deltaTime); // 0 = dont, 1 = pause, 2 = gameOver
+
+			if (transitionTo == 1)
 			{
-				moveDir.y = -1;
+				currentState = EPaused;
 			}
-			//Right
-			if (sf::Keyboard::isKeyPressed(k->m_right))
+			else if (transitionTo == 2)
 			{
-				moveDir.x = 1;
-			}
-			//Left
-			if (sf::Keyboard::isKeyPressed(k->m_left))
-			{
-				moveDir.x = -1;
+				currentState = EGameOver;
 			}
 
-			p.move(moveDir, deltaTime);
-
-			//draw
-			p.drawTo(rt);
+			gameWorld.draw(rt);
 
 			break;
 
 		case(EPaused):
+			gameWorld.draw(rt);
+
+			if (sf::Keyboard::isKeyPressed(GameSettings::get().m_pause))
+			{
+				currentState = EInGame;
+			}
+
+			break;
+
+		case(EGameOver):
+			currentState = EMainMenu;
 			break;
 
 		default:

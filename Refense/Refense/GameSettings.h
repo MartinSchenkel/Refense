@@ -2,14 +2,15 @@
 
 #include <SFML/Graphics.hpp>
 
-class KeyBindings {
-	static KeyBindings *m_instance;
-
+class GameSettings 
+{
 public:
-	static KeyBindings *getInstance() {
-		if (!m_instance)
-			m_instance = new KeyBindings;
-		return m_instance;
+	GameSettings(const GameSettings&) = delete;
+
+	static GameSettings& get()
+	{
+		static GameSettings s_Instance;
+		return s_Instance;
 	}
 
 	sf::Keyboard::Key m_up = sf::Keyboard::W;
@@ -22,5 +23,9 @@ public:
 
 	sf::Keyboard::Key m_pause = sf::Keyboard::Escape;
 
+	float m_musicVolume = 1.0f;
+	float m_sfxVolume = 1.0f;
+
+private:
+	GameSettings(){}
 };
-KeyBindings *KeyBindings::m_instance = 0;

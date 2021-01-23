@@ -27,12 +27,15 @@
     <Filter Include="Source\UIElements">
       <UniqueIdentifier>{d339d870-f4af-408b-83d6-dab9e2d28004}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\GameObject">
+      <UniqueIdentifier>{3982e68a-2da7-43aa-b1b0-b6dbdb37613e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\GameObject">
+      <UniqueIdentifier>{45946117-5680-4d0b-aac3-b1e16dac87e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
@@ -59,16 +62,22 @@
     <ClCompile Include="KeyBindInput.cpp">
       <Filter>Source\UIElements</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWorld.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Headers\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyBindings.h">
-      <Filter>Headers\Data</Filter>
     </ClInclude>
     <ClInclude Include="WorldStats.h">
       <Filter>Headers\Data</Filter>
@@ -99,6 +108,21 @@
     </ClInclude>
     <ClInclude Include="KeyBindInput.h">
       <Filter>Headers\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSettings.h">
+      <Filter>Headers\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Headers\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Headers\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWorld.h">
+      <Filter>Headers\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Headers\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
