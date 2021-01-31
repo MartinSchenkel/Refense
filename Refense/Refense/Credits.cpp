@@ -48,6 +48,7 @@ Credits::Credits()
 	m_scrollPane.addText("Game Design: Martin Schenkel");
 	m_scrollPane.addText("UI/UX Design: Martin Schenkel");
 	m_scrollPane.addText("Level Design: Martin Schenkel");
+	m_scrollPane.addText("Audio Design: Martin Schenkel");
 	m_scrollPane.addText("Production: Martin Schenkel");
 	m_scrollPane.addText("");
 	m_scrollPane.addText("");
@@ -59,6 +60,12 @@ Credits::Credits()
 	m_scrollPane.addText("Prop Art: Martin Schenkel");
 	m_scrollPane.addText("VFX: Martin Schenkel");
 	m_scrollPane.addText("Animation: Martin Schenkel");
+	m_scrollPane.addText("");
+	m_scrollPane.addText(""); 
+	m_scrollPane.addText("-Audio-");
+	m_scrollPane.addText("");
+	m_scrollPane.addText("SFX Audio: Martin Schenkel");
+	m_scrollPane.addText("Background Music: Martin Schenkel");
 	m_scrollPane.addText("");
 	m_scrollPane.addText("");
 	m_scrollPane.addText("-External Thanks-");
