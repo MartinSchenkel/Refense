@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 
 #include "GameWorld.h"
@@ -8,18 +9,15 @@
 #include "GameSettings.h"
 
 
-sf::Keyboard::Key m_up = sf::Keyboard::W;
-sf::Keyboard::Key m_left = sf::Keyboard::A;
-sf::Keyboard::Key m_right = sf::Keyboard::D;
-
-sf::Keyboard::Key m_reflect1 = sf::Keyboard::E;
-sf::Keyboard::Key m_reflect2 = sf::Keyboard::Q;
-sf::Keyboard::Key m_reflect3 = sf::Keyboard::LShift;
-
-sf::Keyboard::Key m_pause = sf::Keyboard::Escape;
-
 int main()
 {
+	sf::Music m_backgroundMusic;
+	m_backgroundMusic.openFromFile("../Resources/Audio/RefenseV2.wav");
+	m_backgroundMusic.setLoop(true);
+	m_backgroundMusic.play();
+
+	GameSettings::get().m_backgroundMusic = &m_backgroundMusic;
+
 	enum EGameStates {
 		ETitleScreen,
 		EMainMenu,

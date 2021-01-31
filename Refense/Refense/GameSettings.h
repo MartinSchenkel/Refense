@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class GameSettings 
 {
@@ -25,6 +26,8 @@ public:
 
 	float m_musicVolume = 1.0f;
 	float m_sfxVolume = 1.0f;
+
+	sf::Music* m_backgroundMusic = nullptr;
 
 private:
 	GameSettings(){}
