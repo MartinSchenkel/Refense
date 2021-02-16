@@ -26,7 +26,7 @@ private:
 	bool m_firedFromEnemy = true;
 
 	sf::Vector2f m_direction;
-	float m_velocity = 200.0f;
+	float m_velocity = 400.0f;
 
 	sf::RectangleShape m_projectileSprite;
 

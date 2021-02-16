@@ -3,15 +3,23 @@
 
 Player::Player()
 {
+	reset();
+}
+
+Player::~Player()
+{
+}
+
+void Player::reset()
+{
+	m_health = 3;
 	m_playerSprite.setFillColor(sf::Color::Transparent);
 	m_playerSprite.setOutlineThickness(4.0f);
 	m_playerSprite.setOutlineColor(sf::Color::Yellow);
 	m_playerSprite.setRadius(20);
 	m_playerSprite.setPosition(200, 0);
-}
 
-Player::~Player()
-{
+	m_velocity = sf::Vector2f(0, 0);
 }
 
 void Player::drawTo(sf::RenderTexture* a_texture)

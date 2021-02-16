@@ -17,6 +17,12 @@ public:
 private:
 	const GameSettings& GAME_SETTINGS = GameSettings::get();
 	
+	void spawnEnemies(float a_deltaTime);
+
+	int m_maxEnemies = 3;
+	float m_spawnCoolDown = 1.0f;
+	float m_timeSinceLastSpawn = 0.0f;
+
 	Player m_player;
 	std::vector<Enemy> m_enemies;
 	std::vector<Projectile> m_projectiles;

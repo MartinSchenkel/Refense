@@ -7,6 +7,7 @@ class Player
 public:
 	Player();
 	~Player();
+	void reset();
 
 	void drawTo(sf::RenderTexture* a_texture);
 	void move(sf::Vector2i a_dir, float a_deltaTime);

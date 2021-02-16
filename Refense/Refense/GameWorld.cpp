@@ -4,17 +4,12 @@
 
 GameWorld::GameWorld()
 {
-	Enemy e;
-	Enemy e1;
-	Enemy e2;
-	m_enemies.push_back(e);
-	m_enemies.push_back(e1);
-	m_enemies.push_back(e2);
+
 }
 
 int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 {
-	//TODO SpawnSystem
+	spawnEnemies(a_deltaTime);
 
 	sf::Vector2i moveDir;
 
@@ -138,7 +133,9 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 	}
 	if (m_player.m_health <= 0)
 	{
-		//TODO RESET GAME
+		m_player.reset();
+		m_enemies.clear();
+		m_projectiles.clear();
 		return 2;
 	}
 
@@ -161,5 +158,17 @@ void GameWorld::draw(sf::RenderTexture* a_renderTexture)
 	for (auto& p : m_projectiles)
 	{
 		p.draw(a_renderTexture);
+	}
+}
+
+void GameWorld::spawnEnemies(float a_deltaTime)
+{
+	m_timeSinceLastSpawn += a_deltaTime;
+
+	if (m_timeSinceLastSpawn >= m_spawnCoolDown && m_maxEnemies >= m_enemies.size())
+	{
+		m_timeSinceLastSpawn = 0;
+		Enemy e;
+		m_enemies.push_back(e);
 	}
 }
