@@ -23,6 +23,7 @@ Enemy::~Enemy()
 
 void Enemy::drawTo(sf::RenderTexture* a_texture)
 {
+	m_jumpParticle.drawTo(a_texture);
 	if(!m_isDead) a_texture->draw(m_enemySprite);
 }
 
@@ -35,6 +36,7 @@ bool Enemy::move(float a_deltaTime)
 		{
 			m_isJumping = true;
 			m_velocity.y = JUMP_STRENGTH;
+			addJumpParticleModule();
 		}
 		else if (m_velocity.y > 0)
 		{
@@ -73,6 +75,8 @@ bool Enemy::move(float a_deltaTime)
 void Enemy::updatePhysics(float a_deltaTime)
 {
 	WorldStats& w = WorldStats::get();
+
+	m_jumpParticle.update(a_deltaTime, m_enemySprite.getPosition() + sf::Vector2f(0, 25));
 
 	//Koyote Time
 	if (std::abs(m_velocity.y) > 2.0f) m_isJumping = true;
@@ -151,4 +155,25 @@ void Enemy::updatePhysics(float a_deltaTime)
 	//float scaleY = 1 + std::clamp(std::abs(m_velocity.y), 0.0f, 0.5f);
 
 	//m_playerSprite.setScale(1, scaleY);
+}
+
+
+void Enemy::addJumpParticleModule()
+{
+	ParticleModule* jumpModule = new ParticleModule("../Resources/Textures/Particles/cross.png");
+
+	jumpModule->m_gravityType = jumpModule->ENone;
+	jumpModule->m_gravity = sf::Vector2f(0.0f, -2.0f);
+	jumpModule->m_batchSize = sf::Vector2u(10, 10);
+	jumpModule->m_spawnCoolDown = sf::Vector2f(2.0f, 2.0f);
+	jumpModule->m_maxNumberOfParticles = 10;
+	jumpModule->m_xSpawnOffset = sf::Vector2f(-10, 10);
+	jumpModule->m_ySpawnOffset = sf::Vector2f(-5, 5);
+	jumpModule->m_finalXSize = sf::Vector2f(0, 0);
+	jumpModule->m_finalYSize = sf::Vector2f(0, 0);
+	jumpModule->m_lifeTime = sf::Vector2f(0.2f, 0.5f);
+	jumpModule->m_initialXVelocity = sf::Vector2f(-50.0f, 50.0f);
+	jumpModule->m_initialYVelocity = sf::Vector2f(-2.0f, 2.0f);
+
+	m_jumpParticle.m_modules.push_back(jumpModule);
 }

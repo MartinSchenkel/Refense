@@ -7,6 +7,7 @@
 #include "TitleScreen.h"
 #include "Menu.h"
 #include "GameSettings.h"
+#include "ParticleSystem.h"
 
 
 int main()
@@ -19,6 +20,7 @@ int main()
 	GameSettings::get().m_backgroundMusic = &m_backgroundMusic;
 
 	enum EGameStates {
+		EParticleTest,
 		ETitleScreen,
 		EMainMenu,
 		ELoading,
@@ -80,6 +82,44 @@ int main()
 	//set up the 'texture' variable in the shader
 	blurShader.setUniform("texture", sf::Shader::CurrentTexture);
 
+	/* TEMP TEST CODE
+	#################################################
+	#################################################
+	*/
+
+	ParticleSystem ps;
+
+	ps.m_position = sf::Vector2f(200, 200);
+
+	ParticleModule square("../Resources/Textures/Particles/reflect.png");// , triangle("../Resources/Textures/Particles/triangle.png"), cross("../Resources/Textures/Particles/cross.png"), circle("../Resources/Textures/Particles/circle.png");
+
+	square.m_gravityType = square.ENone;
+	square.m_batchSize = sf::Vector2u(1, 1);
+	square.m_spawnCoolDown = sf::Vector2f(2.0f, 2.0f);
+	square.m_maxNumberOfParticles = 1;
+	square.m_xSpawnOffset = sf::Vector2f(0, 0);
+	square.m_ySpawnOffset = sf::Vector2f(0, 0);
+	square.m_finalXSize = sf::Vector2f(1.2f, 1.2f);
+	square.m_finalYSize = sf::Vector2f(1.2f, 1.2f);
+	square.m_lifeTime = sf::Vector2f(0.2f, 0.2f);
+	square.m_initialXVelocity = sf::Vector2f(-100.0f, -100.0f);
+	square.m_initialYVelocity = sf::Vector2f(0.0f, 0.0f);
+	square.m_initialColor.first = sf::Color(255, 0, 0, 255);
+	square.m_initialColor.second = sf::Color(255, 0, 0, 255);
+	square.m_finalColor.first = sf::Color(255, 0, 0, 255);
+	square.m_finalColor.second = sf::Color(255, 0, 0, 255);
+
+	ps.m_modules.push_back(&square);
+	//ps.m_modules.push_back(&triangle);
+	//ps.m_modules.push_back(&cross);
+	//ps.m_modules.push_back(&circle);
+	
+
+	/* 
+	#################################################
+	#################################################
+	*/
+
 	while (window.isOpen())
 	{
 
@@ -110,6 +150,13 @@ int main()
 
 		switch (currentState)
 		{
+		case(EParticleTest):
+
+			ps.update(deltaTime, (sf::Vector2f) sf::Mouse::getPosition(window));
+			ps.drawTo(rt);
+
+			break;
+
 		case(ETitleScreen):
 
 			ts->update(deltaTime);

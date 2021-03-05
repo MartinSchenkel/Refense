@@ -9,6 +9,8 @@ GameWorld::GameWorld()
 
 int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 {
+	m_reflectParticles.update(a_deltaTime, m_player.getPosition());
+
 	spawnEnemies(a_deltaTime);
 
 	sf::Vector2i moveDir;
@@ -76,7 +78,13 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 
 						m_projectiles[i].setFiredFromEnemy(false);
 						m_projectiles[i].setColor(sf::Color::Yellow);
+						m_projectiles[i].setParticleTexturePath("../Resources/Textures/Particles/circle.png");
 						m_projectiles[i].setDirection(a_mousePos - m_player.getPosition());
+
+						if (a_mousePos.x < m_player.getPosition().x)
+							addReflectParticleModule(sf::Color(0, 0, 255, 255), true);
+						else
+							addReflectParticleModule(sf::Color(0, 0, 255, 255), false);
 					}
 				}
 				else if (m_projectiles[i].getType() == 2)
@@ -87,7 +95,13 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 
 						m_projectiles[i].setFiredFromEnemy(false);
 						m_projectiles[i].setColor(sf::Color::Yellow);
+						m_projectiles[i].setParticleTexturePath("../Resources/Textures/Particles/circle.png");
 						m_projectiles[i].setDirection(a_mousePos - m_player.getPosition());
+
+						if (a_mousePos.x < m_player.getPosition().x)
+							addReflectParticleModule(sf::Color(255, 0, 0, 255), true);
+						else
+							addReflectParticleModule(sf::Color(255, 0, 0, 255), false);
 					}
 				}
 				else if (m_projectiles[i].getType() == 3)
@@ -98,7 +112,13 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 
 						m_projectiles[i].setFiredFromEnemy(false);
 						m_projectiles[i].setColor(sf::Color::Yellow);
+						m_projectiles[i].setParticleTexturePath("../Resources/Textures/Particles/circle.png");
 						m_projectiles[i].setDirection(a_mousePos - m_player.getPosition());
+
+						if (a_mousePos.x < m_player.getPosition().x)
+							addReflectParticleModule(sf::Color(0, 255, 0, 255), true);
+						else
+							addReflectParticleModule(sf::Color(0, 255, 0, 255), false);
 					}
 				}
 			}
@@ -115,16 +135,29 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 	{
 		m_reflected1Wrong = true;
 		m_player.m_health--;
+		if (a_mousePos.x < m_player.getPosition().x)
+			addReflectParticleModule(sf::Color(0, 0, 255, 255), true);
+		else
+			addReflectParticleModule(sf::Color(0, 0, 255, 255), false);
 	}
 	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_reflect2) && !m_reflected2 && !m_reflected2Wrong) //pressed reflect button but it didnt reflect anything
 	{
 		m_reflected2Wrong = true;
 		m_player.m_health--;
+		if (a_mousePos.x < m_player.getPosition().x)
+			addReflectParticleModule(sf::Color(255, 0, 0, 255), true);
+		else
+			addReflectParticleModule(sf::Color(255, 0, 0, 255), false);
 	}
 	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_reflect3) && !m_reflected3 && !m_reflected3Wrong) //pressed reflect button but it didnt reflect anything
 	{
 		m_reflected3Wrong = true;
 		m_player.m_health--;
+
+		if (a_mousePos.x < m_player.getPosition().x)
+			addReflectParticleModule(sf::Color(0, 255, 0, 255), true);
+		else
+			addReflectParticleModule(sf::Color(0, 255, 0, 255), false);
 	}
 
 	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_pause))
@@ -143,7 +176,7 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 }
 void GameWorld::draw(sf::RenderTexture* a_renderTexture)
 {
-
+	m_reflectParticles.drawTo(a_renderTexture);
 	WorldStats& w = WorldStats::get();
 
 	w.drawTo(a_renderTexture);
@@ -171,4 +204,33 @@ void GameWorld::spawnEnemies(float a_deltaTime)
 		Enemy e;
 		m_enemies.push_back(e);
 	}
+}
+
+
+void GameWorld::addReflectParticleModule(sf::Color a_color, bool a_left)
+{
+	ParticleModule* reflectModule = new ParticleModule("../Resources/Textures/Particles/reflectleft.png");
+	reflectModule->m_initialXVelocity = sf::Vector2f(-100.0f, -100.0f);
+	if (!a_left)
+	{
+		reflectModule->setTexturePath("../Resources/Textures/Particles/reflectright.png");
+		reflectModule->m_initialXVelocity = sf::Vector2f(100.0f, 100.0f);
+	}
+
+	reflectModule->m_gravityType = reflectModule->ENone;
+	reflectModule->m_batchSize = sf::Vector2u(1, 1);
+	reflectModule->m_spawnCoolDown = sf::Vector2f(2.0f, 2.0f);
+	reflectModule->m_maxNumberOfParticles = 1;
+	reflectModule->m_xSpawnOffset = sf::Vector2f(0, 0);
+	reflectModule->m_ySpawnOffset = sf::Vector2f(0, 0);
+	reflectModule->m_finalXSize = sf::Vector2f(1.2f, 1.2f);
+	reflectModule->m_finalYSize = sf::Vector2f(1.2f, 1.2f);
+	reflectModule->m_lifeTime = sf::Vector2f(0.2f, 0.2f);
+	reflectModule->m_initialYVelocity = sf::Vector2f(0.0f, 0.0f);
+	reflectModule->m_initialColor.first = a_color;
+	reflectModule->m_initialColor.second = a_color;
+	reflectModule->m_finalColor.first = a_color;
+	reflectModule->m_finalColor.second = a_color;
+
+	m_reflectParticles.m_modules.push_back(reflectModule);
 }

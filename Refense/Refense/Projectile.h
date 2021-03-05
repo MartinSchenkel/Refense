@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "Player.h"
 #include "Enemy.h"
+#include "ParticleSystem.h"
 
 class Projectile
 {
@@ -16,6 +17,7 @@ public:
 	bool getFiredFromEnemy() { return m_firedFromEnemy; }
 	void setFiredFromEnemy(bool a_firedFromEnemy);
 	void setColor(sf::Color a_color);
+	void setParticleTexturePath(std::string a_path);
 	sf::Vector2f getPosition() { return m_projectileSprite.getPosition(); }
 
 	int getType() { return m_type; }
@@ -31,4 +33,6 @@ private:
 	sf::RectangleShape m_projectileSprite;
 
 	int m_type = 1;
+
+	ParticleSystem m_trailparticle;
 };
