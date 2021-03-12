@@ -37,6 +37,7 @@ bool Enemy::move(float a_deltaTime)
 			m_isJumping = true;
 			m_velocity.y = JUMP_STRENGTH;
 			addJumpParticleModule();
+			SoundManager::get().playSound(SoundManager::get().EJump);
 		}
 		else if (m_velocity.y > 0)
 		{

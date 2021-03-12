@@ -59,6 +59,8 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 			p.setType(1 + std::rand() % 3);
 
 			m_projectiles.push_back(p);
+
+			m_soundplayer.playSound(m_soundplayer.EShoot);
 		}
 	}
 
@@ -85,6 +87,8 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 							addReflectParticleModule(sf::Color(0, 0, 255, 255), true);
 						else
 							addReflectParticleModule(sf::Color(0, 0, 255, 255), false);
+
+						m_soundplayer.playSound(m_soundplayer.EReflect);
 					}
 				}
 				else if (m_projectiles[i].getType() == 2)
@@ -102,6 +106,9 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 							addReflectParticleModule(sf::Color(255, 0, 0, 255), true);
 						else
 							addReflectParticleModule(sf::Color(255, 0, 0, 255), false);
+
+
+						m_soundplayer.playSound(m_soundplayer.EReflect);
 					}
 				}
 				else if (m_projectiles[i].getType() == 3)
@@ -119,6 +126,9 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 							addReflectParticleModule(sf::Color(0, 255, 0, 255), true);
 						else
 							addReflectParticleModule(sf::Color(0, 255, 0, 255), false);
+
+
+						m_soundplayer.playSound(m_soundplayer.EReflect);
 					}
 				}
 			}
@@ -135,37 +145,65 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 	{
 		m_reflected1Wrong = true;
 		m_player.m_health--;
+
+		m_soundplayer.playSound(m_soundplayer.EHealthLost);
+
 		if (a_mousePos.x < m_player.getPosition().x)
 			addReflectParticleModule(sf::Color(0, 0, 255, 255), true);
 		else
 			addReflectParticleModule(sf::Color(0, 0, 255, 255), false);
+
+
+		m_soundplayer.playSound(m_soundplayer.EReflectFail);
 	}
 	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_reflect2) && !m_reflected2 && !m_reflected2Wrong) //pressed reflect button but it didnt reflect anything
 	{
 		m_reflected2Wrong = true;
 		m_player.m_health--;
+		m_soundplayer.playSound(m_soundplayer.EHealthLost);
 		if (a_mousePos.x < m_player.getPosition().x)
 			addReflectParticleModule(sf::Color(255, 0, 0, 255), true);
 		else
 			addReflectParticleModule(sf::Color(255, 0, 0, 255), false);
+
+
+		m_soundplayer.playSound(m_soundplayer.EReflectFail);
 	}
 	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_reflect3) && !m_reflected3 && !m_reflected3Wrong) //pressed reflect button but it didnt reflect anything
 	{
 		m_reflected3Wrong = true;
 		m_player.m_health--;
+		m_soundplayer.playSound(m_soundplayer.EHealthLost);
 
 		if (a_mousePos.x < m_player.getPosition().x)
 			addReflectParticleModule(sf::Color(0, 255, 0, 255), true);
 		else
 			addReflectParticleModule(sf::Color(0, 255, 0, 255), false);
+			
+
+		m_soundplayer.playSound(m_soundplayer.EReflectFail);
 	}
 
 	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_pause))
 	{
+
+		m_soundplayer.playSound(m_soundplayer.EPause);
 		return 1;
 	}
 	if (m_player.m_health <= 0)
 	{
+		WorldStats& ws = WorldStats::get();
+		GameSettings& gs = GameSettings::get();
+
+		if(ws.m_score > gs.m_highScore)
+		{
+			gs.m_highScore = ws.m_score;
+		}
+
+		ws.m_score = 0;
+
+		m_soundplayer.playSound(m_soundplayer.EPlayerDeath);
+
 		m_player.reset();
 		m_enemies.clear();
 		m_projectiles.clear();
@@ -192,6 +230,14 @@ void GameWorld::draw(sf::RenderTexture* a_renderTexture)
 	{
 		p.draw(a_renderTexture);
 	}
+
+}
+
+
+void GameWorld::drawHUD(sf::RenderWindow& a_window)
+{
+
+	m_playerHUD.drawTo(a_window, m_player.m_health);
 }
 
 void GameWorld::spawnEnemies(float a_deltaTime)

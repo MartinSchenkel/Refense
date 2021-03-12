@@ -3,6 +3,7 @@
 #include <SFML\Graphics.hpp>
 
 #include "ParticleSystem.h"
+#include "SoundManager.h"
 
 class Player 
 {
@@ -38,4 +39,6 @@ private:
 	sf::CircleShape m_playerSprite;
 
 	ParticleSystem m_jumpParticle = ParticleSystem(0.5f);
+
+	SoundManager& m_soundplayer = SoundManager::get();
 };

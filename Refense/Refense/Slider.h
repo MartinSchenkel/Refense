@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SFML\Graphics.hpp"
+#include "SoundManager.h"
 
 class Slider
 {
@@ -39,4 +40,6 @@ private:
 	sf::Text m_valueText;
 
 	bool m_isBeingDragged = false;
+
+	SoundManager& m_soundplayer = SoundManager::get();
 };

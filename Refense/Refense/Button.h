@@ -2,6 +2,8 @@
 
 #include "SFML/Graphics.hpp"
 
+#include "SoundManager.h"
+
 class Button
 {
 	enum EButtonState
@@ -44,4 +46,6 @@ private:
 	int m_fontSize[3] = { 30, 30, 30 };
 
 	bool* m_onClickVariable; //Variable that will be set to true on Click
+
+	SoundManager& m_soundplayer = SoundManager::get();
 };

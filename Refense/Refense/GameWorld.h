@@ -6,6 +6,8 @@
 #include "Enemy.h"
 #include "Projectile.h"
 #include "ParticleSystem.h"
+#include "SoundManager.h"
+#include "HUD.h"
 
 class GameWorld
 {
@@ -14,6 +16,7 @@ public:
 
 	int update(sf::Vector2f a_mousePos, float a_deltaTime); //0 = dont transition, 1 = pause game, 2 = end game
 	void draw(sf::RenderTexture* a_renderTexture);
+	void drawHUD(sf::RenderWindow& a_window);
 
 private:
 	void addReflectParticleModule(sf::Color a_color, bool a_left);
@@ -34,4 +37,8 @@ private:
 	bool m_reflected1Wrong = false, m_reflected2Wrong = false, m_reflected3Wrong = false;
 
 	ParticleSystem m_reflectParticles = ParticleSystem(2.0f);
+
+	SoundManager& m_soundplayer = SoundManager::get();
+
+	HUD m_playerHUD;
 };

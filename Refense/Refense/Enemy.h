@@ -3,6 +3,7 @@
 #include <SFML\Graphics.hpp>
 
 #include "ParticleSystem.h"
+#include "SoundManager.h"
 
 class Enemy
 {

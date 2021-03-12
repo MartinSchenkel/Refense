@@ -34,6 +34,7 @@ void Player::move(sf::Vector2i a_dir, float a_deltaTime)
 		m_isJumping = true;
 		m_velocity.y = JUMP_STRENGTH;
 		addJumpParticleModule();
+		m_soundplayer.playSound(m_soundplayer.EJump);
 	}
 	else if (a_dir.y == 0 && m_isJumping) //key was released
 	{

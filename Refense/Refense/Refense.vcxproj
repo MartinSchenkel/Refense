@@ -135,6 +135,7 @@
     <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="KeyBindInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="KeyBindInput.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Menu.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TextScroll.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScreen.h" />

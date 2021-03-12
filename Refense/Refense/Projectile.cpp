@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include "WorldStats.h"
 
 Projectile::Projectile(sf::Vector2f a_position)
 {
@@ -34,6 +35,7 @@ bool Projectile::update(float a_deltaTime, Player* a_player, std::vector<Enemy>&
 		if (a_player->getGlobalBounds().intersects(m_projectileSprite.getGlobalBounds()))
 		{
 			a_player->m_health--;
+			SoundManager::get().playSound(SoundManager::get().EHealthLost);
 			return true;
 		}
 	}
@@ -44,6 +46,11 @@ bool Projectile::update(float a_deltaTime, Player* a_player, std::vector<Enemy>&
 			if (a_enemies.at(i).getGlobalBounds().intersects(m_projectileSprite.getGlobalBounds()))
 			{
 				a_enemies.erase(a_enemies.begin() + i, a_enemies.begin() + i + 1);
+
+				SoundManager::get().playSound(SoundManager::get().EEnemyDeath);
+
+				WorldStats::get().m_score += 100;
+
 				return true;
 			}
 		}

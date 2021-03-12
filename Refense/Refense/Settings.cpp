@@ -118,8 +118,6 @@ void Settings::update(sf::Vector2f a_mousePos, sf::Keyboard::Key a_keyDown)
 	m_reflect2Bind.update(a_mousePos, a_keyDown);
 	m_reflect3Bind.update(a_mousePos, a_keyDown);
 	m_pauseBind.update(a_mousePos, a_keyDown);
-
-	GameSettings::get().m_backgroundMusic->setVolume(m_musicVolumeSlider.getValue() * 100);
 }
 void Settings::drawTo(sf::RenderTexture* a_texture)
 {
@@ -165,6 +163,9 @@ int Settings::shouldTransition()
 		m_pauseBind.reset();
 
 		m_goBack = false;
+
+		m_soundManager.playSound(m_soundManager.EMusic);
+
 		return 1;
 	}
 	return 0;

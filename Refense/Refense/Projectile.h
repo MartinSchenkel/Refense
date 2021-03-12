@@ -35,4 +35,6 @@ private:
 	int m_type = 1;
 
 	ParticleSystem m_trailparticle;
+
+	//SoundManager& m_soundplayer = SoundManager::get();
 };
