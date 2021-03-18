@@ -42,6 +42,9 @@ void Slider::update(sf::Vector2f a_mousePos)
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
+			if(!m_isBeingDragged)
+				m_soundplayer.playSound(m_soundplayer.EButton);
+
 			m_isBeingDragged = true;
 		}
 	}

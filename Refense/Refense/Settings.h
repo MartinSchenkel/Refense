@@ -3,6 +3,7 @@
 #include "Button.h"
 #include "Slider.h"
 #include "KeyBindInput.h"
+#include "SoundManager.h"
 
 class Settings
 {
@@ -45,4 +46,5 @@ private:
 
 	bool m_goBack = false;
 
+	SoundManager& m_soundManager = SoundManager::get();
 };

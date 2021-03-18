@@ -48,6 +48,9 @@ void Button::update(sf::Vector2f a_mousePos)
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			m_currentState = EClicked;
+
+			m_soundplayer.playSound(m_soundplayer.EButton);
+
 			if(m_onClickVariable != nullptr)
 				*m_onClickVariable = true;
 		}

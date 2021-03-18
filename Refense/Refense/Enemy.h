@@ -2,6 +2,9 @@
 
 #include <SFML\Graphics.hpp>
 
+#include "ParticleSystem.h"
+#include "SoundManager.h"
+
 class Enemy
 {
 public:
@@ -19,6 +22,8 @@ public:
 	bool m_isDead = false;
 private:
 
+	void addJumpParticleModule();
+
 	sf::Vector2f m_velocity;
 
 	float m_targetXValue;
@@ -35,4 +40,6 @@ private:
 	sf::Vector2f m_shootInterval = sf::Vector2f(1.0f, 4.0f); //x = min time, y = max time
 
 	sf::CircleShape m_enemySprite;
+
+	ParticleSystem m_jumpParticle = ParticleSystem(5.0f);
 };

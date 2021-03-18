@@ -7,18 +7,14 @@
 #include "TitleScreen.h"
 #include "Menu.h"
 #include "GameSettings.h"
+#include "ParticleSystem.h"
+#include "SoundManager.h"
 
 
 int main()
 {
-	sf::Music m_backgroundMusic;
-	m_backgroundMusic.openFromFile("../Resources/Audio/RefenseV2.wav");
-	m_backgroundMusic.setLoop(true);
-	m_backgroundMusic.play();
-
-	GameSettings::get().m_backgroundMusic = &m_backgroundMusic;
-
 	enum EGameStates {
+		EParticleTest,
 		ETitleScreen,
 		EMainMenu,
 		ELoading,
@@ -31,22 +27,22 @@ int main()
 		"#version 130\n\
 		\
 		uniform sampler2D texture; \
-		uniform float blur_radius = 0.001f; \
+		uniform float blur_radius = 0.002f; \
 		\
 		void main() \
 		{ \
 			vec2 offx = vec2(blur_radius, 0.0);\
 			vec2 offy = vec2(0.0, blur_radius);\
 		\
-			vec4 pixel = texture2D(texture, gl_TexCoord[0].xy)      * 30.0 + \
-				texture2D(texture, gl_TexCoord[0].xy - offx)        * 5.0 + \
-				texture2D(texture, gl_TexCoord[0].xy + offx)        * 5.0 + \
-				texture2D(texture, gl_TexCoord[0].xy - offy)        * 5.0 + \
-				texture2D(texture, gl_TexCoord[0].xy + offy)        * 5.0 + \
-				texture2D(texture, gl_TexCoord[0].xy - offx - offy) * 1.0 + \
-				texture2D(texture, gl_TexCoord[0].xy - offx + offy) * 1.0 + \
-				texture2D(texture, gl_TexCoord[0].xy + offx - offy) * 1.0 + \
-				texture2D(texture, gl_TexCoord[0].xy + offx + offy) * 1.0; \
+			vec4 pixel =	texture2D(texture, gl_TexCoord[0].xy)				* 1.0 +	\
+							texture2D(texture, gl_TexCoord[0].xy - offx)        * 0.3 +		\
+							texture2D(texture, gl_TexCoord[0].xy + offx)        * 0.3 +		\
+							texture2D(texture, gl_TexCoord[0].xy - offy)        * 0.3 +		\
+							texture2D(texture, gl_TexCoord[0].xy + offy)        * 0.3 +		\
+							texture2D(texture, gl_TexCoord[0].xy - offx - offy) * 0.3 +		\
+							texture2D(texture, gl_TexCoord[0].xy - offx + offy) * 0.3 +		\
+							texture2D(texture, gl_TexCoord[0].xy + offx - offy) * 0.3 +		\
+							texture2D(texture, gl_TexCoord[0].xy + offx + offy) * 0.3;		\
 		 \
 			gl_FragColor = gl_Color * (pixel / 2.0); \
 		} \
@@ -64,6 +60,8 @@ int main()
 
 	std::srand((unsigned int) time(NULL));
 
+	SoundManager::get().setupSounds();
+
 	GameWorld gameWorld;
 
 	GameSettings& k = GameSettings::get();
@@ -75,6 +73,9 @@ int main()
 	sf::RenderTexture* rt = new sf::RenderTexture();
 	rt->create(1920, 1080);
 
+	sf::RenderTexture* hud = new sf::RenderTexture();
+	rt->create(1920, 1080);
+
 	sf::Shader blurShader;
 	blurShader.loadFromMemory(FRAG_SHADER, sf::Shader::Fragment);
 	//set up the 'texture' variable in the shader
@@ -82,7 +83,6 @@ int main()
 
 	while (window.isOpen())
 	{
-
 		deltaTime = t.getTimePassedInSec();
 		//std::cout << std::floor(1/deltaTime) << std::endl;
 		t.Reset();
@@ -110,6 +110,9 @@ int main()
 
 		switch (currentState)
 		{
+		case(EParticleTest):
+			break;
+
 		case(ETitleScreen):
 
 			ts->update(deltaTime);
@@ -175,13 +178,17 @@ int main()
 			break;
 		}
 
-		rt->display();
-
 		window.clear();
+
+		rt->display();
 
 		sf::Sprite s(rt->getTexture());
 
-		if(currentState == EInGame) window.draw(s, &blurShader);
+		if (currentState == EInGame)
+		{
+			window.draw(s, &blurShader);
+			gameWorld.drawHUD(window);
+		}
 		else window.draw(s);
 
 		window.display();

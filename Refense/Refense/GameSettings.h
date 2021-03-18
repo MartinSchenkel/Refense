@@ -27,7 +27,7 @@ public:
 	float m_musicVolume = 1.0f;
 	float m_sfxVolume = 1.0f;
 
-	sf::Music* m_backgroundMusic = nullptr;
+	float m_highScore = 0.0f;
 
 private:
 	GameSettings(){}

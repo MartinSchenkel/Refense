@@ -2,6 +2,9 @@
 
 #include <SFML\Graphics.hpp>
 
+#include "ParticleSystem.h"
+#include "SoundManager.h"
+
 class Player 
 {
 public:
@@ -24,6 +27,8 @@ public:
 
 private:
 
+	void addJumpParticleModule();
+
 	sf::Vector2f m_velocity;
 
 	bool m_isJumping = false;
@@ -32,4 +37,8 @@ private:
 	const float JUMP_STRENGTH = -8;
 
 	sf::CircleShape m_playerSprite;
+
+	ParticleSystem m_jumpParticle = ParticleSystem(0.5f);
+
+	SoundManager& m_soundplayer = SoundManager::get();
 };

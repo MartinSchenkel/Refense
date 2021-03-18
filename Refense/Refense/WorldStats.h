@@ -23,6 +23,8 @@ public:
 
 	sf::Vector2f getGravity() { return GRAVITY; };
 
+	float m_score = 0;
+
 private:
 
 	WorldStats() {
