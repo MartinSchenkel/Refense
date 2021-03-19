@@ -26,12 +26,11 @@ public:
 	{
 		float musicVolume = GameSettings::get().m_musicVolume * 100.0f;
 
-
 		m_backgroundMusic = new sf::Music();
-		m_backgroundMusic->openFromFile("../Resources/Audio/jump.wav");
+		m_backgroundMusic->openFromFile("../Resources/Audio/RefenseV2.wav");
 		m_backgroundMusic->setVolume(musicVolume);
 		m_backgroundMusic->setLoop(true);
-		//m_backgroundMusic->play();
+		m_backgroundMusic->play();
 		
 		m_jumpSound = new sf::SoundBuffer();
 		m_jumpSound->loadFromFile("../Resources/Audio/jump.wav");
@@ -58,11 +57,10 @@ public:
 		switch (type)
 		{
 		case(EMusic):
-
-			//m_backgroundMusic->openFromFile("../Resources/Audio/RefenseV2.wav");
-			//m_backgroundMusic->setVolume(musicVolume);
-			//m_backgroundMusic->setLoop(true);
-			//m_backgroundMusic->play();
+			m_backgroundMusic->openFromFile("../Resources/Audio/RefenseV2.wav");
+			m_backgroundMusic->setVolume(GameSettings::get().m_musicVolume * 100.0f);
+			m_backgroundMusic->setLoop(true);
+			m_backgroundMusic->play();
 
 			return;
 

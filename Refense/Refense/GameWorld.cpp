@@ -198,6 +198,7 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 		if(ws.m_score > gs.m_highScore)
 		{
 			gs.m_highScore = ws.m_score;
+			gs.safeSettings();
 		}
 
 		ws.m_score = 0;
@@ -230,9 +231,7 @@ void GameWorld::draw(sf::RenderTexture* a_renderTexture)
 	{
 		p.draw(a_renderTexture);
 	}
-
 }
-
 
 void GameWorld::drawHUD(sf::RenderWindow& a_window)
 {
@@ -244,11 +243,33 @@ void GameWorld::spawnEnemies(float a_deltaTime)
 {
 	m_timeSinceLastSpawn += a_deltaTime;
 
-	if (m_timeSinceLastSpawn >= m_spawnCoolDown && m_maxEnemies >= m_enemies.size())
+	WorldStats& ws = WorldStats::get();
+	if (m_timeSinceLastSpawn >= m_spawnCoolDown)
 	{
-		m_timeSinceLastSpawn = 0;
-		Enemy e;
-		m_enemies.push_back(e);
+		int tempscore = ws.m_score / 100;
+		if (tempscore > m_maxEnemies)
+		{
+			if (m_maxEnemies > m_enemies.size())
+			{
+				m_timeSinceLastSpawn = 0;
+				Enemy e;
+				m_enemies.push_back(e);
+				return;
+			}
+		}
+		if (tempscore > m_enemies.size())
+		{
+			m_timeSinceLastSpawn = 0;
+			Enemy e;
+			m_enemies.push_back(e);
+			return;
+		}
+		if (tempscore == 0 && m_enemies.size() == 0)
+		{
+			m_timeSinceLastSpawn = 0;
+			Enemy e;
+			m_enemies.push_back(e);
+		}
 	}
 }
 

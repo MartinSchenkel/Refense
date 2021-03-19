@@ -26,6 +26,7 @@ private:
 	void spawnEnemies(float a_deltaTime);
 
 	int m_maxEnemies = 3;
+
 	float m_spawnCoolDown = 1.0f;
 	float m_timeSinceLastSpawn = 0.0f;
 

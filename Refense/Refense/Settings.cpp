@@ -154,6 +154,8 @@ int Settings::shouldTransition()
 		k.m_musicVolume = m_musicVolumeSlider.getValue();
 		k.m_sfxVolume = m_sfxVolumeSlider.getValue();
 
+		k.safeSettings();
+
 		m_leftBind.reset();
 		m_rightBind.reset();
 		m_jumpBind.reset();

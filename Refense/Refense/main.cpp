@@ -13,6 +13,9 @@
 
 int main()
 {
+
+	GameSettings::get().loadSettings();
+
 	enum EGameStates {
 		EParticleTest,
 		ETitleScreen,
@@ -22,31 +25,6 @@ int main()
 		EPaused,
 		EGameOver
 	};
-
-	const std::string FRAG_SHADER =
-		"#version 130\n\
-		\
-		uniform sampler2D texture; \
-		uniform float blur_radius = 0.002f; \
-		\
-		void main() \
-		{ \
-			vec2 offx = vec2(blur_radius, 0.0);\
-			vec2 offy = vec2(0.0, blur_radius);\
-		\
-			vec4 pixel =	texture2D(texture, gl_TexCoord[0].xy)				* 1.0 +	\
-							texture2D(texture, gl_TexCoord[0].xy - offx)        * 0.3 +		\
-							texture2D(texture, gl_TexCoord[0].xy + offx)        * 0.3 +		\
-							texture2D(texture, gl_TexCoord[0].xy - offy)        * 0.3 +		\
-							texture2D(texture, gl_TexCoord[0].xy + offy)        * 0.3 +		\
-							texture2D(texture, gl_TexCoord[0].xy - offx - offy) * 0.3 +		\
-							texture2D(texture, gl_TexCoord[0].xy - offx + offy) * 0.3 +		\
-							texture2D(texture, gl_TexCoord[0].xy + offx - offy) * 0.3 +		\
-							texture2D(texture, gl_TexCoord[0].xy + offx + offy) * 0.3;		\
-		 \
-			gl_FragColor = gl_Color * (pixel / 2.0); \
-		} \
-		";
 
 	EGameStates currentState = ETitleScreen;
 
@@ -77,9 +55,15 @@ int main()
 	rt->create(1920, 1080);
 
 	sf::Shader blurShader;
-	blurShader.loadFromMemory(FRAG_SHADER, sf::Shader::Fragment);
-	//set up the 'texture' variable in the shader
-	blurShader.setUniform("texture", sf::Shader::CurrentTexture);
+	blurShader.loadFromFile("../Resources/Shaders/fragshader.frag", sf::Shader::Fragment);
+	blurShader.setUniform("u_texture", sf::Shader::CurrentTexture);
+
+	sf::CircleShape circle;
+	circle.setPosition(250.0f, 250.f);
+	circle.setFillColor(sf::Color(0, 0, 0, 0));
+	circle.setOutlineColor(sf::Color::Yellow);
+	circle.setOutlineThickness(5.0f);
+	circle.setRadius(50.0f);
 
 	while (window.isOpen())
 	{
@@ -111,6 +95,9 @@ int main()
 		switch (currentState)
 		{
 		case(EParticleTest):
+			
+			rt->draw(circle);
+
 			break;
 
 		case(ETitleScreen):
