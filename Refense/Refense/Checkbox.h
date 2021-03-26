@@ -4,7 +4,7 @@
 
 #include "SoundManager.h"
 
-class Button
+class Checkbox
 {
 	enum EButtonState
 	{
@@ -13,7 +13,7 @@ class Button
 		EClicked
 	};
 public:
-	Button();
+	Checkbox();
 
 	void setButtonText(std::string* a_text);
 
@@ -27,9 +27,12 @@ public:
 
 	void setOnClickVariable(bool* a_variableToChange);
 
-	bool update(sf::Vector2f a_mousePos);
+	void update(sf::Vector2f a_mousePos);
 
 	void drawTo(sf::RenderTexture* a_texture);
+
+	void setCurrentValue(bool a_value);
+	bool getCurrentValue();
 
 	sf::Vector2f getSize();
 
@@ -42,10 +45,12 @@ private:
 	sf::Font m_buttonFont;
 	sf::Text m_buttonText;
 
+	std::string m_buttonDescription = "";
+
 	sf::Color m_fontColor[3];
 	int m_fontSize[3] = { 30, 30, 30 };
 
-	bool* m_onClickVariable; //Variable that will be set to true on Click
+	bool m_currentValue;
 
 	SoundManager& m_soundplayer = SoundManager::get();
 };

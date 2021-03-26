@@ -9,6 +9,8 @@ GameWorld::GameWorld()
 
 int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 {
+	m_reasonForDeath = 0;
+
 	m_reflectParticles.update(a_deltaTime, m_player.getPosition());
 
 	spawnEnemies(a_deltaTime);
@@ -155,6 +157,7 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 
 
 		m_soundplayer.playSound(m_soundplayer.EReflectFail);
+		m_reasonForDeath = 1;
 	}
 	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_reflect2) && !m_reflected2 && !m_reflected2Wrong) //pressed reflect button but it didnt reflect anything
 	{
@@ -168,6 +171,7 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 
 
 		m_soundplayer.playSound(m_soundplayer.EReflectFail);
+		m_reasonForDeath = 1;
 	}
 	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_reflect3) && !m_reflected3 && !m_reflected3Wrong) //pressed reflect button but it didnt reflect anything
 	{
@@ -182,37 +186,30 @@ int GameWorld::update(sf::Vector2f a_mousePos, float a_deltaTime)
 			
 
 		m_soundplayer.playSound(m_soundplayer.EReflectFail);
-	}
-
-	if (sf::Keyboard::isKeyPressed(GAME_SETTINGS.m_pause))
-	{
-
-		m_soundplayer.playSound(m_soundplayer.EPause);
-		return 1;
+		m_reasonForDeath = 1;
 	}
 	if (m_player.m_health <= 0)
 	{
-		WorldStats& ws = WorldStats::get();
-		GameSettings& gs = GameSettings::get();
-
-		if(ws.m_score > gs.m_highScore)
-		{
-			gs.m_highScore = ws.m_score;
-			gs.safeSettings();
-		}
-
-		ws.m_score = 0;
-
 		m_soundplayer.playSound(m_soundplayer.EPlayerDeath);
 
-		m_player.reset();
-		m_enemies.clear();
-		m_projectiles.clear();
+		resetGame();
 		return 2;
 	}
 
 	return 0;
 }
+
+
+void GameWorld::resetGame()
+{
+	int rng = rand() % 4;
+	WorldStats::get().m_deathReason = m_deathReasonStrings[m_reasonForDeath][rng];
+
+	m_player.reset();
+	m_enemies.clear();
+	m_projectiles.clear();
+}
+
 void GameWorld::draw(sf::RenderTexture* a_renderTexture)
 {
 	m_reflectParticles.drawTo(a_renderTexture);
@@ -246,7 +243,7 @@ void GameWorld::spawnEnemies(float a_deltaTime)
 	WorldStats& ws = WorldStats::get();
 	if (m_timeSinceLastSpawn >= m_spawnCoolDown)
 	{
-		int tempscore = ws.m_score / 100;
+		int tempscore = (int) (ws.m_score / 100.0f);
 		if (tempscore > m_maxEnemies)
 		{
 			if (m_maxEnemies > m_enemies.size())

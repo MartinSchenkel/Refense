@@ -35,6 +35,16 @@ Settings::Settings()
 	m_sfxVolumeSlider.setHeadSize(sf::Vector2f(25, 50));
 	m_sfxVolumeSlider.setPosition(sf::Vector2f(835, 260));
 
+	temp = "Easy Mode: ";
+	m_easyModeCheckBox.setCurrentValue(k.m_easyMode);
+	m_easyModeCheckBox.setFontSize(20);
+	m_easyModeCheckBox.setButtonText(&temp);
+	m_easyModeCheckBox.setColors(
+		sf::Color(255, 255, 255, 255),
+		sf::Color(125, 125, 125, 255),
+		sf::Color(255, 125, 0, 255));
+	m_easyModeCheckBox.m_position = sf::Vector2f(500, 300);
+
 	temp = "Move Left:";
 	m_leftBind.setDescriptionText(&temp);
 	m_leftBind.setColors(
@@ -110,6 +120,7 @@ void Settings::update(sf::Vector2f a_mousePos, sf::Keyboard::Key a_keyDown)
 	m_backButton.update(a_mousePos);
 	m_musicVolumeSlider.update(a_mousePos);
 	m_sfxVolumeSlider.update(a_mousePos);
+	m_easyModeCheckBox.update(a_mousePos);
 
 	m_leftBind.update(a_mousePos, a_keyDown);
 	m_rightBind.update(a_mousePos, a_keyDown);
@@ -118,6 +129,7 @@ void Settings::update(sf::Vector2f a_mousePos, sf::Keyboard::Key a_keyDown)
 	m_reflect2Bind.update(a_mousePos, a_keyDown);
 	m_reflect3Bind.update(a_mousePos, a_keyDown);
 	m_pauseBind.update(a_mousePos, a_keyDown);
+	m_easyModeCheckBox.update(a_mousePos);
 }
 void Settings::drawTo(sf::RenderTexture* a_texture)
 {
@@ -125,6 +137,7 @@ void Settings::drawTo(sf::RenderTexture* a_texture)
 	m_backButton.drawTo(a_texture);
 	m_musicVolumeSlider.drawTo(a_texture);
 	m_sfxVolumeSlider.drawTo(a_texture);
+	m_easyModeCheckBox.drawTo(a_texture);
 
 	m_leftBind.drawTo(a_texture);
 	m_rightBind.drawTo(a_texture);
@@ -153,6 +166,8 @@ int Settings::shouldTransition()
 
 		k.m_musicVolume = m_musicVolumeSlider.getValue();
 		k.m_sfxVolume = m_sfxVolumeSlider.getValue();
+
+		k.m_easyMode = m_easyModeCheckBox.getCurrentValue();
 
 		k.safeSettings();
 

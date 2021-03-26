@@ -22,11 +22,16 @@ Projectile::Projectile(sf::Vector2f a_position)
 	trailModule->m_lifeTime = sf::Vector2f(0.2f, 0.5f);
 
 	m_trailparticle.m_modules.push_back(trailModule);
+
+	m_tooltipfont.loadFromFile("../Resources/Fonts/unispace.ttf");
+	m_tooltip.setFont(m_tooltipfont);
 }
 
 bool Projectile::update(float a_deltaTime, Player* a_player, std::vector<Enemy>& a_enemies)
 {
 	m_projectileSprite.move(m_direction * m_velocity * a_deltaTime);
+	m_tooltip.setPosition(m_projectileSprite.getPosition());
+	m_tooltip.move(0, -30.0f);
 
 	m_trailparticle.update(a_deltaTime, m_projectileSprite.getPosition());
 
@@ -67,6 +72,14 @@ void Projectile::draw(sf::RenderTexture* a_renderTexture)
 {
 	m_trailparticle.drawTo(a_renderTexture);
 	a_renderTexture->draw(m_projectileSprite);
+
+	sf::Text temp;
+	temp.setFont(m_tooltipfont);
+	temp.setString(m_tooltip.getString());
+	temp.setPosition(m_tooltip.getPosition());
+
+	if (GameSettings::get().m_easyMode && m_firedFromEnemy)
+		a_renderTexture->draw(temp);
 }
 
 void Projectile::setDirection(sf::Vector2f a_dir) 
@@ -96,20 +109,28 @@ void Projectile::setType(int a_type)
 {
 	m_type = a_type;
 
+	GameSettings& gs = GameSettings::get();
+
 	if (m_type == 1) //cross
 	{
 		m_projectileSprite.setOutlineColor(sf::Color::Blue);
 		m_trailparticle.m_modules[0]->setTexturePath("../Resources/Textures/Particles/cross.png");
+		std::string key = gs.fromKtoS(gs.m_reflect1);
+		m_tooltip.setString("[" + key + "]");
 	}
 	else if (m_type == 2) //square
 	{
 		m_trailparticle.m_modules[0]->setTexturePath("../Resources/Textures/Particles/square.png");
 		m_projectileSprite.setOutlineColor(sf::Color::Red);
+		std::string key = gs.fromKtoS(gs.m_reflect2);
+		m_tooltip.setString("[" + key + "]");
 	}
 	else if (m_type == 3) //triangle
 	{
 		m_trailparticle.m_modules[0]->setTexturePath("../Resources/Textures/Particles/triangle.png");
 		m_projectileSprite.setOutlineColor(sf::Color::Green);
+		std::string key = gs.fromKtoS(gs.m_reflect3);
+		m_tooltip.setString("[" + key + "]");
 	}
 
 }

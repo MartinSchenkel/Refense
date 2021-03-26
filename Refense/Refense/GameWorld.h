@@ -17,6 +17,7 @@ public:
 	int update(sf::Vector2f a_mousePos, float a_deltaTime); //0 = dont transition, 1 = pause game, 2 = end game
 	void draw(sf::RenderTexture* a_renderTexture);
 	void drawHUD(sf::RenderWindow& a_window);
+	void resetGame();
 
 private:
 	void addReflectParticleModule(sf::Color a_color, bool a_left);
@@ -42,4 +43,10 @@ private:
 	SoundManager& m_soundplayer = SoundManager::get();
 
 	HUD m_playerHUD;
+
+	int m_reasonForDeath = 0; //0 == Hit by projectile, 1 == Reflected Wrong
+
+	std::string m_deathReasonStrings[2][4] = { {"getting hit by a projectile. Dodge dummy!", "getting hit by a projectile. Just reflect them!", "getting shot. All you had to do was reflect it!", "getting shot. Git gud next time!"},
+											{"reflecting at the wrong time. Stop spamming idiot!", "reflecting at the wrong time. Maybe try Easy Mode?", "reflecting at the wrong time. Its not that hard...", "reflecting at the wrong time. You need that timing."} 
+											};
 };

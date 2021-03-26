@@ -6,6 +6,8 @@
 #include "Timer.h"
 #include "TitleScreen.h"
 #include "Menu.h"
+#include "GameOverScreen.h"
+#include "PauseScreen.h"
 #include "GameSettings.h"
 #include "ParticleSystem.h"
 #include "SoundManager.h"
@@ -31,9 +33,8 @@ int main()
 	TitleScreen* ts = new TitleScreen();
 	Menu mainMenu;
 
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "Refense");
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "Refense", sf::Style::Titlebar | sf::Style::Close);
 	window.setFramerateLimit(144);
-
 	window.setKeyRepeatEnabled(true);
 
 	std::srand((unsigned int) time(NULL));
@@ -49,10 +50,10 @@ int main()
 	float deltaTime = 0.0f;
 
 	sf::RenderTexture* rt = new sf::RenderTexture();
-	rt->create(1920, 1080);
+	rt->create(1280, 720);
 
 	sf::RenderTexture* hud = new sf::RenderTexture();
-	rt->create(1920, 1080);
+	rt->create(1280, 720);
 
 	sf::Shader blurShader;
 	blurShader.loadFromFile("../Resources/Shaders/fragshader.frag", sf::Shader::Fragment);
@@ -64,6 +65,11 @@ int main()
 	circle.setOutlineColor(sf::Color::Yellow);
 	circle.setOutlineThickness(5.0f);
 	circle.setRadius(50.0f);
+
+	GameOverScreen* gameOverScreen = new GameOverScreen();
+	PauseScreen pauseScreen;
+
+	sf::Vector2f mousePos;
 
 	while (window.isOpen())
 	{
@@ -85,8 +91,29 @@ int main()
 			if (event.type == sf::Event::EventType::KeyPressed)
 			{
 				pressedKey = event.key.code;
+
+				if (pressedKey == GameSettings::get().m_pause)
+				{
+					if (currentState == EInGame)
+					{
+						SoundManager::get().playSound(SoundManager::get().EPause);
+						currentState = EPaused;
+					}
+					else if (currentState == EPaused)
+					{
+						SoundManager::get().playSound(SoundManager::get().EPause);
+						currentState = EInGame;
+					}
+				}
+			}
+
+			if (event.type == sf::Event::Resized)
+			{
+				window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
 			}
 		}
+
+		mousePos = (sf::Vector2f) sf::Mouse::getPosition(window);
 
 		rt->clear();
 
@@ -115,7 +142,7 @@ int main()
 			break;
 
 		case(EMainMenu):
-			mainMenu.update(deltaTime, (sf::Vector2f) sf::Mouse::getPosition(window), pressedKey);
+			mainMenu.update(deltaTime, mousePos, pressedKey);
 			mainMenu.drawTo(rt);
 			transitionTo = mainMenu.shouldTransition();
 
@@ -132,7 +159,7 @@ int main()
 			break;
 
 		case(EInGame):
-			transitionTo = gameWorld.update((sf::Vector2f) sf::Mouse::getPosition(window), deltaTime); // 0 = dont, 1 = pause, 2 = gameOver
+			transitionTo = gameWorld.update(mousePos, deltaTime); // 0 = dont, 1 = pause, 2 = gameOver
 
 			if (transitionTo == 1)
 			{
@@ -141,6 +168,7 @@ int main()
 			else if (transitionTo == 2)
 			{
 				currentState = EGameOver;
+				gameOverScreen = new GameOverScreen();
 			}
 
 			gameWorld.draw(rt);
@@ -148,17 +176,28 @@ int main()
 			break;
 
 		case(EPaused):
-			gameWorld.draw(rt);
+			if(!pauseScreen.isInSettings) gameWorld.draw(rt);
 
-			if (sf::Keyboard::isKeyPressed(GameSettings::get().m_pause))
+			transitionTo = pauseScreen.update(mousePos, pressedKey);
+
+			if (transitionTo == 1) currentState = EInGame;
+			else if (transitionTo == 3)
 			{
-				currentState = EInGame;
+				WorldStats::get().m_score = 0;
+				gameWorld.resetGame();
+				currentState = EMainMenu;
 			}
+
+			pauseScreen.drawTo(rt);
 
 			break;
 
 		case(EGameOver):
-			currentState = EMainMenu;
+			if (!gameOverScreen->update(deltaTime, mousePos))
+			{
+				gameOverScreen->drawTo(rt);
+			}
+			else currentState = EMainMenu;
 			break;
 
 		default:

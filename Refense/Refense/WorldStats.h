@@ -25,6 +25,8 @@ public:
 
 	float m_score = 0;
 
+	std::string m_deathReason = "";
+
 private:
 
 	WorldStats() {

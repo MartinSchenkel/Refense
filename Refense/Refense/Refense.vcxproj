@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Checkbox.cpp" />
     <ClCompile Include="Credits.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameWorld.cpp" />
@@ -151,8 +152,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Checkbox.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="HUD.h" />
@@ -162,6 +165,7 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleModule.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="PauseScreen.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Settings.h" />

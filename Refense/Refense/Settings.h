@@ -3,6 +3,7 @@
 #include "Button.h"
 #include "Slider.h"
 #include "KeyBindInput.h"
+#include "Checkbox.h"
 #include "SoundManager.h"
 
 class Settings
@@ -18,6 +19,8 @@ private:
 	Button m_backButton;
 	Slider m_musicVolumeSlider;
 	Slider m_sfxVolumeSlider;
+
+	Checkbox m_easyModeCheckBox;
 
 	sf::Font m_textFont;
 	sf::Text m_title;

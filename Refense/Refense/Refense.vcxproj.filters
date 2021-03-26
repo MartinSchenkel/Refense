@@ -39,6 +39,12 @@
     <Filter Include="Source\VFX">
       <UniqueIdentifier>{9ecd86fb-1f00-47c1-a855-7bc11fd1a03e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\Menu\PauseScreen">
+      <UniqueIdentifier>{d9b5f449-3b7b-4f05-80d5-acb940884f50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Menu\GameOverScreen">
+      <UniqueIdentifier>{98293be7-b79f-486f-b8c4-d3b94b82c78e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -90,6 +96,9 @@
       <Filter>Source\VFX</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
+      <Filter>Source\UIElements</Filter>
+    </ClCompile>
+    <ClCompile Include="Checkbox.cpp">
       <Filter>Source\UIElements</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +165,15 @@
     </ClInclude>
     <ClInclude Include="HUD.h">
       <Filter>Headers\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="Checkbox.h">
+      <Filter>Headers\UIElements</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScreen.h">
+      <Filter>Headers\Menu\GameOverScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseScreen.h">
+      <Filter>Headers\Menu\PauseScreen</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

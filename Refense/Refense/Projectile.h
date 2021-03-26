@@ -24,6 +24,9 @@ public:
 	void setType(int a_type);
 
 private:
+
+	sf::Font m_tooltipfont;
+	sf::Text m_tooltip;
 	
 	bool m_firedFromEnemy = true;
 
@@ -35,6 +38,4 @@ private:
 	int m_type = 1;
 
 	ParticleSystem m_trailparticle;
-
-	//SoundManager& m_soundplayer = SoundManager::get();
 };

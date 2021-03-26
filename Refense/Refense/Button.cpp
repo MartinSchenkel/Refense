@@ -41,7 +41,7 @@ void Button::setSizes(int a_defaultSize, int a_hoverSize, int a_clickedSize)
 	m_fontSize[2] = a_clickedSize;
 }
 
-void Button::update(sf::Vector2f a_mousePos)
+bool Button::update(sf::Vector2f a_mousePos)
 {
 	if (m_buttonText.getGlobalBounds().contains(a_mousePos))
 	{
@@ -53,10 +53,14 @@ void Button::update(sf::Vector2f a_mousePos)
 
 			if(m_onClickVariable != nullptr)
 				*m_onClickVariable = true;
+
+			return true;
 		}
 		else m_currentState = EHovered;
 	}
 	else m_currentState = EDefault;
+
+	return false;
 }
 
 void Button::drawTo(sf::RenderTexture* a_texture)
