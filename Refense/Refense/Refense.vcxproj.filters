@@ -175,5 +175,14 @@
     <ClInclude Include="PauseScreen.h">
       <Filter>Headers\Menu\PauseScreen</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\RefenseBuilds\MarketingMaterial\Logo.ico" />
   </ItemGroup>
 </Project>

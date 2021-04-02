@@ -168,6 +168,7 @@
     <ClInclude Include="PauseScreen.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SoundManager.h" />
@@ -175,6 +176,12 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="WorldStats.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\RefenseBuilds\MarketingMaterial\Logo.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

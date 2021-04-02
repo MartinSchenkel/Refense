@@ -29,6 +29,8 @@ public:
 
 	sf::Keyboard::Key m_pause = sf::Keyboard::Escape;
 
+	
+
 	float m_musicVolume = 1.0f;
 	float m_sfxVolume = 1.0f;
 

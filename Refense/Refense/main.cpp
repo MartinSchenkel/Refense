@@ -33,9 +33,13 @@ int main()
 	TitleScreen* ts = new TitleScreen();
 	Menu mainMenu;
 
+
+	sf::Image icon;
+	icon.loadFromFile("../Resources/Textures/Logo.png");
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Refense", sf::Style::Titlebar | sf::Style::Close);
 	window.setFramerateLimit(144);
 	window.setKeyRepeatEnabled(true);
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	std::srand((unsigned int) time(NULL));
 
@@ -68,6 +72,11 @@ int main()
 
 	GameOverScreen* gameOverScreen = new GameOverScreen();
 	PauseScreen pauseScreen;
+
+	sf::Texture texture;
+	texture.loadFromFile("../Resources/Textures/Vignette.png");
+	sf::Sprite vignette;
+	vignette.setTexture(texture);
 
 	sf::Vector2f mousePos;
 
@@ -205,6 +214,8 @@ int main()
 		}
 
 		window.clear();
+
+		rt->draw(vignette);
 
 		rt->display();
 

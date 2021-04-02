@@ -267,6 +267,7 @@ void GameWorld::spawnEnemies(float a_deltaTime)
 			Enemy e;
 			m_enemies.push_back(e);
 		}
+		
 	}
 }
 
